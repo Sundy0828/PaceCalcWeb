@@ -1,0 +1,16 @@
+.fakeimg {
+  background: #aaa;
+  background: url("images/header-background.jpg");
+  width:100%;
+  height:200px;
+  background-repeat:no-repeat;
+  background-size:cover;
+}
+input {
+  text-align: center;
+}
+@media only screen and (max-width: 576px) {
+  .marginSM {
+    margin-top: 40px;
+  }
+}
