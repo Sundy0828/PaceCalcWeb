@@ -248,7 +248,7 @@ $(document).ready(function(){
     getValues();
     var cookie = getCookie("lapDist");
     var lapDist = 200;
-    if (cookie !== null) {
+    if (cookie !== "") {
       lapDist = checkValidNumber(cookie);
     }
     var dist = Dist;
