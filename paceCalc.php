@@ -117,7 +117,7 @@ $(document).ready(function(){
   getpdUnit();
 
   $('#distUnit').text(dUnit + "s");
-  $('#perDist').text("Per " + pUnit);
+  $('#perDist').text("Per " + pdUnit);
 });
 
   // variables from inputs
@@ -132,7 +132,7 @@ $(document).ready(function(){
   var PSec = 0;
 
   var dUnit = "Kilometer";
-  var pUnit = "Kilometer";
+  var pdUnit = "Kilometer";
 
   // get seconds for calculations
   function getSeconds(hour, min, sec) {
