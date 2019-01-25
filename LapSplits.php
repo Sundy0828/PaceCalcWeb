@@ -9,9 +9,9 @@
       <button class="btn btn-primary" onclick='location.href = "paceCalc.php";'><i class="fas fa-chevron-left"></i> Back to Pace Calculator</button>
     </div>
 
-    <div id="splitTbl" class="col-sm-9">
+    <div id="splitTbl" class="col-sm-9 marginSM">
 
-      <table id="myTable" class="table table-bordered table-hover table-dark table-responsive-sm">
+      <table id="myTable" class="table table-bordered table-hover table-dark">
         <thead>
           <tr>
             <th>Lap</th>
