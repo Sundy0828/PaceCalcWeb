@@ -4,6 +4,9 @@
   <h2>Pace Calculator</h2>
   <hr />
   <div class="row">
+
+    <div class="col-sm-3"></div>
+
     <div class="col-sm-9">
 
         <div class="row">
@@ -95,17 +98,6 @@
         </div>
     </div>
 
-    <div id="splitTbl" class="col-sm-3 marginSM">
-      <table id="myTable" class="table table-bordered table-hover table-dark table-responsive-sm">
-        <thead>
-          <tr>
-            <th>Lap</th>
-            <th>Time</th>
-          </tr>
-        </thead>
-      </table>
-    </div>
-
   </div>
 
 
@@ -138,18 +130,63 @@ $(document).ready(function(){
   function getSeconds(hour, min, sec) {
     return (hour * 3600) + (min * 60) + sec;
   }
-  // get distance convertion for calculations
-  function ConvertDist(distType, dist) {
-    if (dUnit != pdUnit) {
-      if (distType == "Kilometer") {
-        return dist * km_mile;
-      }else {
-        return dist / km_mile;
-      }
-    }else {
-      return dist;
+
+  // convert distance to meter
+  function convertToMD(distType, dist) {
+    switch(distType) {
+      case "Kilometer":
+        // code block
+        return dist * 1000;
+      case "Mile":
+        // code block
+        return dist * (km_mile * 1000);
+      default:
+        // code block
+        return dist;
     }
   }
+  // convert distance from meter
+  function convertFromMD(distType, dist) {
+    switch(distType) {
+      case "Kilometer":
+        // code block
+        return dist / 1000;
+      case "Mile":
+        // code block
+        return dist / (km_mile * 1000);
+      default:
+        // code block
+        return dist;
+    }
+  }
+
+  function convertToMP(distType, sec) {
+    switch(distType) {
+      case "Kilometer":
+        // code block
+        return sec / 1000;
+      case "Mile":
+        // code block
+        return sec / (km_mile * 1000);
+      default:
+        // code block
+        return sec;
+    }
+  }
+  function convertFromMP(distType, sec) {
+    switch(distType) {
+      case "Kilometer":
+        // code block
+        return sec * 1000;
+      case "Mile":
+        // code block
+        return sec * (km_mile * 1000);
+      default:
+        // code block
+        return sec;
+    }
+  }
+
   // get time from sec
   function getTime(seconds) {
     var hour = 0;
@@ -217,37 +254,42 @@ $(document).ready(function(){
   // on calculate btn click
   function timeBtn() {
     getValues();
-    var dist = ConvertDist(pdUnit, Dist);
+    var distM = convertToMD(dUnit, Dist);
+    //var dist = ConvertDist(pdUnit, Dist);
     var sec = getSeconds(PHour, PMin, PSec);
-    var result = calcTime(dist, sec);
+    var secM = convertToMP(pdUnit, sec);
+    var result = calcTime(distM, secM);
     var time = getTime(result);
 
     // set values
-    $('#THour').val(time[0]);
-    $('#TMin').val(time[1]);
-    $('#TSec').val(time[2]);
+    $('#THour').val(addZero(time[0]));
+    $('#TMin').val(addZero(time[1]));
+    $('#TSec').val(addZero(time[2]));
   }
   function distBtn() {
     getValues();
     var time = getSeconds(THour, TMin, TSec);
     var pace = getSeconds(PHour, PMin, PSec);
-    var result = calcDist(time, pace);
-    result = ConvertDist(dUnit, result);
+    var paceM = convertToMP(pdUnit, pace);
+    var result = calcDist(time, paceM);
+    result = convertFromMD(dUnit, result);
 
     // set values
     $('#Dist').val(result);
   }
   function paceBtn() {
     getValues();
-    var dist = ConvertDist(pdUnit, Dist);
+    var dist = convertToMD(dUnit, Dist);
     var sec = getSeconds(THour, TMin, TSec);
     var result = calcPace(sec, dist);
+    result = convertFromMP(pdUnit, result);
     var time = getTime(result);
 
+
     // set values
-    $('#PHour').val(time[0]);
-    $('#PMin').val(time[1]);
-    $('#PSec').val(time[2]);
+    $('#PHour').val(addZero(time[0]));
+    $('#PMin').val(addZero(time[1]));
+    $('#PSec').val(addZero(time[2]));
   }
   function splitBtn() {
     getValues();
@@ -256,12 +298,12 @@ $(document).ready(function(){
     if (cookie !== "") {
       lapDist = checkValidNumber(cookie);
     }
-    var dist = Dist;
+    var dist = convertToMD(dUnit, Dist);
     var sec = getSeconds(THour, TMin, TSec);
 
     var lapSplit = 0;
     if (dist > 0 && lapDist > 0) {
-      lapSplit = Math.ceil((dist * 1000) / lapDist);
+      lapSplit = Math.ceil((dist) / lapDist);
     }
 
     var lapSplitArr = [[],[]];
@@ -269,25 +311,17 @@ $(document).ready(function(){
       for (var i = 1; i <= lapSplit; i++) {
         if (i != lapSplit) {
           lapSplitArr[0][i-1] = i * lapDist;
-          lapSplitArr[1][i-1] = getTime(sec / (dist * 1000) * lapDist * i);
+          lapSplitArr[1][i-1] = getTime(sec / (dist) * lapDist * i);
         }else {
-          lapSplitArr[0][i-1] = dist * 1000;
+          lapSplitArr[0][i-1] = dist;
           lapSplitArr[1][i-1] = getTime(sec);
         }
       }
     }
-    setSplitTable(lapSplitArr);
-  }
-  function setSplitTable(arr) {
-    var table = document.getElementById("myTable");
-    for (var i = 0; i < arr[0].length; i++) {
-      var row = table.insertRow(i+1);
-      var cell1 = row.insertCell(0);
-      var cell2 = row.insertCell(1);
-      var lapTime = arr[1][i];
-      cell1.innerHTML = arr[0][i] + " meters";
-      cell2.innerHTML = addZero(lapTime[0]) + ":" + addZero(lapTime[1]) + ":" + addZero(lapTime[2]);
-    }
+    window.localStorage.setItem('myArray', JSON.stringify(lapSplitArr));
+    var myArray = sessionStorage.getItem('myArray');
+    
+    location.href = "Lapsplits.php";
   }
   function addZero(val) {
     var zero = "";
