@@ -1,8 +1,18 @@
-
-
-<div class="jumbotron text-center mt-5" style="margin-bottom:0">
-  <p>Pace Calculator</p>
 </div>
+
+<footer class="footer font-small text-light">
+        <div class="row m-0 bg-light text-center">
+            <div class="col-md-12 py-5">
+                <!-- github -->
+                <a class="fb-ic text-dark" style="text-decoration: none;" href="https://github.com/Sundy0828/PaceCalcWeb">
+                    <i class="fab fa-github fa-lg mr-md-5 mr-3 fa-2x"></i>
+                </a>
+            </div>
+        </div>
+        <div class="footer-copyright text-center bg-dark">
+            Pace Calculator
+        </div>
+    </footer>
 
 <script>
 // km to mile conversion

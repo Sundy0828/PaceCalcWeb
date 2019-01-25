@@ -1,6 +1,6 @@
 <?php include("navbar.php");?>
 
-<div class="container">
+
   <h2>Pace Calculator</h2>
   <hr />
   <div class="row">
@@ -103,7 +103,7 @@
     </div>
 
   </div>
-</div>
+
 
 <script>
 $(document).ready(function(){
@@ -135,10 +135,14 @@ $(document).ready(function(){
   }
   // get distance convertion for calculations
   function ConvertDist(distType, dist) {
-    if (distType == "Kilometer") {
-      return dist * km_mile;
+    if (dUnit != pdUnit) {
+      if (distType == "Kilometer") {
+        return dist * km_mile;
+      }else {
+        return dist / km_mile;
+      }
     }else {
-      return dist / km_mile;
+      return dist;
     }
   }
   // get time from sec
@@ -208,10 +212,7 @@ $(document).ready(function(){
   // on calculate btn click
   function timeBtn() {
     getValues();
-    var dist = Dist;
-    if (dUnit != pdUnit) {
-      dist = ConvertDist(pdUnit, dist);
-    }
+    var dist = ConvertDist(pdUnit, Dist);
     var sec = getSeconds(PHour, PMin, PSec);
     var result = calcTime(dist, sec);
     var time = getTime(result);

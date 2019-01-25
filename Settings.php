@@ -1,6 +1,6 @@
 <?php include("navbar.php");?>
 
-<div class="container">
+
   <h2>Settings</h2>
   <hr />
     <div class="row">
@@ -76,7 +76,7 @@
 
         </div>
     </div>
-</div>
+
 
 <script>
 $(document).ready(function(){
