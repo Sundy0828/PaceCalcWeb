@@ -86,7 +86,8 @@ $(document).ready(function(){
   var cookie = getCookie("lapDist");
   var lapDist = 200;
   if (cookie !== null) {
-    lapDist = checkValidNumber(cookie);
+    var holder = checkValidNumber(cookie);
+    lapDist = holder == 0 ? 200 : holder;
   }
   var cookie2 = getCookie("dUnit");
   var convertM = "Kilometer";
@@ -152,6 +153,8 @@ function save() {
   setCookie("lapDist", lapDist, 18250);
   setCookie("dUnit", dUnit, 18250);
   setCookie("pdUnit", pdUnit, 18250);
+
+  alert("Your settings have been saved!");
 }
 </script>
 

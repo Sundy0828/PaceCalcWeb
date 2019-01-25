@@ -78,11 +78,15 @@
           <div class="col-4">
             <h4>Seconds</h4>
             <input id="PSec" type="number" class="form-control" maxlength="6"/>
+            <div class="clearfix">
+                <span class="float-right"><h5 id="perDist">Per Kilometer<h5></span>
+            </div>
           </div>
         </div>
 
         <div class="row">
           <div class="col-12">
+            <hr />
             <hr />
             <div class="clearfix">
                 <span class="float-right"><button class="btn btn-primary" onclick="splitBtn()"><i class="fas fa-calculator"></i>  Calculate Splits</button></span>
@@ -112,7 +116,8 @@ $(document).ready(function(){
   getdUnit();
   getpdUnit();
 
-  $('#distUnit').text(dUnit);
+  $('#distUnit').text(dUnit + "s");
+  $('#perDist').text("Per " + pUnit);
 });
 
   // variables from inputs
@@ -166,13 +171,13 @@ $(document).ready(function(){
   }
   function getdUnit() {
     var cookie = getCookie("dUnit");
-    if (cookie !== null) {
+    if (cookie !== "") {
       dUnit = cookie;
     }
   }
   function getpdUnit() {
     var cookie = getCookie("pdUnit");
-    if (cookie !== null) {
+    if (cookie !== "") {
       pdUnit = cookie;
     }
   }
